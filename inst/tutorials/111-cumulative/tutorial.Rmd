@@ -40,6 +40,8 @@ x <- ces |>
 # per se. But this model (the first to be ordinal) is always complex enough
 # without that.
 
+set.seed(9)
+
 fit_approval <- MASS::polr(approval ~ ideology + education,
                       data = x)
 
@@ -50,20 +52,6 @@ fit_approval <- MASS::polr(approval ~ ideology + education,
 # write_rds(tidy_approval, file = "data/tidy_approval.rds")
 tidy_approval <- read_rds("data/tidy_approval.rds")
 
-ndata <-
-  expand_grid(ideology = c("Very Liberal",
-                            "Very Conservative"),
-              education = unique(x$education))
-
-
-plot_predictions(fit_approval, 
-                 newdata = "balanced", 
-                 condition = c("education", "approval", "ideology"))
-
-plot_predictions(fit_approval, 
-                 newdata = "balanced", 
-                 condition = c("education", "ideology"),
-                 draw = FALSE) -> z
 ```
 
 ```{r copy-code-chunk, child = system.file("child_documents/copy_button.Rmd", package = "tutorial.helpers")}
@@ -72,8 +60,10 @@ plot_predictions(fit_approval,
 ```{r info-section, child = system.file("child_documents/info_section.Rmd", package = "tutorial.helpers")}
 ```
 
-<!-- DK: Should we drop ideology = "Not Sure" from the data? -->
-<!-- DK: Equitomatic does not work? How do we deal with the math? -->
+<!-- DK: Read the latest version of template tutorial. -->
+<!-- DK: Change this tutorial to match, exactly, the new version of the template. -->
+<!-- DK: Start experimenting with cool marginaleffects plots. -->
+
 
 ## Introduction
 ### 
@@ -317,6 +307,9 @@ Our Quantity of Interest might appear too specific, too narrow to capture the fu
 
 *The doorstep to the temple of wisdom is a knowledge of our own ignorance.* - Benjamin Franklin
 
+<!--MP: Just preference but I like the socrates quote more
+*The only true wisdom is in knowing you know nothing.* - Socrates-->
+
 Our question:
 
 > *What is the relationship between the approval of the president and an individual's ideology?*
@@ -374,7 +367,7 @@ This problem is not causal so there is no treatment. In order to make causal rel
 
 ### Exercise 4
 
-# MP The function Show_file() from the tutorial.helpers package is mentioned in this exercise, but the package itself is not called. As a result, students may struggle to answer the question. To address this, consider including a question that explicitly requires the use of Show_file() to ensure students are aware of how to use the function and the package.
+<!-- # MP The function Show_file() from the tutorial.helpers package is mentioned in this exercise, but the package itself is not called. As a result, students may struggle to answer the question. To address this, consider including a question that explicitly requires the use of Show_file() to ensure students are aware of how to use the function and the package. -->
 
 
 Create a Github repo called `cumulative`. Make sure to click the "Add a README file" check box.
@@ -459,7 +452,11 @@ question_text(NULL,
 
 There are variables outside the data we have that could have a meaningful relationship with `approval`. Whether or not the individual comes from an immigrant family could have a relationship with their approval of the president.
 
-## MP The tutorial introduces a treatment in the context of ads earlier, but it should be clarified that the ads are not considered the treatment in the analysis. This clarification will help prevent confusion about the role of ads in the context of the exercise.
+<<<<<<< HEAD
+
+=======
+ <!-- DK: The tutorial introduces a treatment in the context of ads earlier, but it should be clarified that the ads are not considered the treatment in the analysis. This clarification will help prevent confusion about the role of ads in the context of the exercise. -->
+>>>>>>> 5846dc502636d512c97ba8dfb635ad8ca61e17fa
 
 
 ### Exercise 8
@@ -964,6 +961,8 @@ question_text(NULL,
 
 No data is perfect, we have to look for reasons why the model we will create might not work as well as we hope. An important skill to have as a data scientist is to know the limitations of the model. 
 
+<!--MP: Justice is about concerns that you (or your critics) might have, reasons why the model you create might not work as well as you hope.  -->
+
 ### Exercise 2
 
 In your own words, define a Population Table.
@@ -998,6 +997,8 @@ question_text(NULL,
 
 Stability is all about *time*. Is the relationship among the columns in the Population Table stable over time? In particular, is the relationship --- which is another way of saying "mathematical formula" --- at the time the data was gathered the same as the relationship at the (generally later) time references by the Preceptor Table.
 
+<!--MP: I suggest utilizing this version since it is more word economic and efficient. Efficiency is key, since as a student I often struggled with absorbing large forms of content.  *The longer the time period covered by the Preceptor Table (and the data), the more suspect the assumption of stability becomes.*  -->
+
 ### Exercise 4
 
 Provide one reason why the assumption of stability might not be true in this case.
@@ -1014,6 +1015,10 @@ question_text(NULL,
 ### 
 
 If we wanted to make a predictive model for this year, then we might have a major stability problem because the relationship between presidential approval and ideology depends a great deal on the ideology of the president whose approval we are measuring.
+
+<!--MP: A change in time or the distribution of the data does not, in and of itself, demonstrate a violation of stability. Stability is about the parameters: the baseline approval rating, the effect of idealogy on approval ratings and so on. Stability means these parameters are the same in the data as they are in the population as they are in the Preceptor Table. -->
+
+
 
 ### Exercise 5
 
@@ -1049,9 +1054,11 @@ question_text(NULL,
 
 A large portion of the CES respondents are YouGov panelists. This group might not representative of the whole population because they might be more politically active and care more about politics than other people do.
 
+<!--MP: "add maybe" The reason that representativeness is important is because, when it is violated, the estimates for the model parameters might be biased.  -->
+
 ### Exercise 7
 
-# MP The wording of this exercise is somewhat confusing and could be made clearer. I would suggest revising the question to improve response accuracy.
+
 
 
 We use information about the population to make inferences about the Preceptor Table. Provide one reason, involving the relationship between the population and the Preceptor Table, for why the assumption of representativeness might not be true in this case.
@@ -1085,6 +1092,8 @@ question_text(NULL,
 ### 
 
 This assumption is only relevant for causal models. We describe a model as "confounded" if this is not true. 
+
+<!--MP: This assumption is only relevant for causal models. We describe a model as "confounded" if this is not true. The easiest way to ensure unconfoundedness is to assign treatment randomly. -->
 
 ### Exercise 9
 
@@ -1261,7 +1270,7 @@ To confirm, `Command/Ctrl + Shift + K` again. It should be quick.
 
 ### Exercise 7
 
-# MP An error occurs where the object X cannot be found. Additionally, the varying questions across exercises create some confusion about the central question, as seen in Exercise 3 from the Temperance section. Clarify the central question and ensure consistency in the exercises to provide a clearer focus.
+
 
 Run `tidy()` on `fit_approval` with the argument `conf.int` set equal to `TRUE`. The returns 95% intervals for all the parameters in our model. (This might take 30 seconds or so.)
 
@@ -1273,9 +1282,11 @@ Run `tidy()` on `fit_approval` with the argument `conf.int` set equal to `TRUE`.
 tidy(..., conf.int = ...)
 ```
 
+<!-- Note that there is no test case for these and some other functions because they take too long to run. -->
+
 ### Exercise 8
 
-Write a sentence interpreting the `-0.19` estimate for `educationHighSchoolGraduate`.
+Write a sentence interpreting the `-0.1` estimate for `educationHigh School Graduate`.
 
 ```{r}
 tidy_approval |> 
@@ -1302,7 +1313,7 @@ Larger coefficients (either positive or negative) indicate a stronger relationsh
 
 ### Exercise 9
 
-Write a sentence interpreting the `-0.29` to `-0.08` confidence interval for `educationHighSchoolGraduate`. 
+Write a sentence interpreting the `-0.43` to `-0.19` confidence interval for `educationSome Collegee`. 
 
 ```{r}
 tidy_approval |> 
@@ -1312,7 +1323,7 @@ tidy_approval |>
 
 ```{r courage-9}
 question_text(NULL,
-	message = "We do not know the true value for the coefficient for educationHighSchoolGraduate, but we can be 95% confident that it lies somewhere between -0.29 and -0.08.",
+	message = "We do not know the true value for the coefficient for educationSome College, but we can be 95% confident that it lies somewhere between -0.43 and -0.19.",
 	answer(NULL, correct = TRUE),
 	allow_retry = FALSE,
 	incorrect = NULL,
@@ -1429,169 +1440,9 @@ question_text(NULL,
 
 Data science projects almost always begin with a broad topic of interest. Yet, in order to make progress, we need to drill down to a specific question. This leads to the creation of a data generating mechanism, which can now be used to answer lots of questions, thus allowing us to explore the original topic broadly.
 
+
+
 ### Exercise 4
-
-To answer our question, we need to create an object --- call it `ndata` --- which we will pass in as a value to the `ndata` argument in whichever **marginaleffects** function we decide to use. Which variables (e.g., which columns) do we need to include in this object?
-
-```{r temperance-4}
-question_text(NULL,
-	message = "We will inclue ideology, education and faminc.",
-	answer(NULL, correct = TRUE),
-	allow_retry = FALSE,
-	incorrect = NULL,
-	rows = 6)
-```
-
-### 
-
-For most models, each row in `ndata` corresponds to a posterior derived from the values of the variables in that row. But that is just the posterior for one sort of unit. There are lots of different units! Which others might we be interested in? We can generate posteriors for each of them, and then, in some cool graphic, display all those posteriors together.
-
-### Exercise 5
-
-Which values do you want the variables in your `ndata` object to have? This is not easy! At the very least, one or more of the rows should have values which allow you to answer your original question. But, now that you have a model, there are many questions which you might want to answer, the better to get a fuller understanding of the general question.
-
-<!-- DK: Maybe we don't need all the family income levels, allowing us to average over them. -->
-
-```{r temperance-5}
-question_text(NULL,
-	message = "For ideology we are interested in Very Liberal and Very Conservative. Education will have all of the education leves: No HS, High School Graduate, Some College, 2-Year, 4-Year, and Post-Grad. Faminc will have all ranges of family income: Less than 10k, 10k - 20k, 20k - 30k, 30k - 40k, 40k - 50k, 50k - 60k, 60k - 70k, 70k - 80k, 80k - 100k, 100k - 120k, 120k - 150k, and 150k+.",
-	answer(NULL, correct = TRUE),
-	allow_retry = FALSE,
-	incorrect = NULL,
-	rows = 6)
-```
-
-### 
-
-### Exercise 6
-
-Here is the R code which creates the `ndata` object: `expand_grid(ideology = c("Very Liberal", "Very Conservative"), education = unique(x$education), faminc = unique(x$faminc))`. Type it into the code exercise block and hit "Run Code."
-
-```{r temperance-6, exercise = TRUE}
-
-```
-
-```{r temperance-6-hint-1, eval = FALSE}
-expand_grid(...)
-```
-
-```{r temperance-6-test, include = FALSE}
-expand_grid(ideology = factor(c("Very Liberal",
-                          "Very Conservative")),
-            education = unique(x$education),
-            faminc = unique(x$faminc))
-```
-
-### 
-
-It is best to ensure that the variable types in `ndata` match the variable types on `x`. The easiest way to ensure that is by using `x` itself in the creation `ndata`.
-
-### Exercise 7
-
-Behind the scenes, we have created the `ndata` object using this code. To confirm, type `ndata` and hit "Run Code."
-
-```{r temperance-7, exercise = TRUE}
-
-```
-
-```{r temperance-7-hint-1, eval = FALSE}
-ndata
-```
-
-```{r temperance-7-test, include = FALSE}
-ndata
-```
-
-### 
-
-Functions like `unique()` --- to grab all the possible values in a variable --- and `expand_grid()` --- to create all possible combinations of different variables --- are often useful in creating `ndata`.
-
-### Exercise 8
-
-Create a new code chunk in `analysis.qmd` which creates the `ndata` object. `Command/Ctrtl + Shift + K`.
-
-At the Console, run:
-
-```
-tutorial.helpers::show_file("analysis.qmd", pattern = "ndata")
-```
-
-CP/CR.
-
-```{r temperance-8}
-question_text(NULL,
-	answer(NULL, correct = TRUE),
-	allow_retry = TRUE,
-	try_again_button = "Edit Answer",
-	incorrect = NULL,
-	rows = 3)
-```
-
-### 
-
-The `ndata` tibble has 144 rows. There are 12 values for `faminc`, 2 values for `ideology`, and 6 values for `education`. The number of values for each of them multiplied together gives us 144. 
-
-### Exercise 9
-
-Pipe `fit_approval` to `add_predicted_draws()` with the argument `newdata = ndata`. Then continue the pipe with `filter(.prediction %in% c("Strongly Approve", "Strongly Disapprove"))`
-
-```{r temperance-9, exercise = TRUE}
-
-```
-
-<button onclick = "transfer_code(this)">Copy previous code</button>
-
-```{r temperance-9-hint-1, eval = FALSE}
-fit_approval |>
-  add_predicted_draws(...) |> 
-  filter(...)
-```
-
-```{r temperance-9-test, include = FALSE}
-# fit_approval |>
-#    add_predicted_draws(newdata = ndata) |>
-#    filter(.prediction %in% c("Strongly Approve", "Strongly Disapprove")) 
-```
-
-### 
-
-We use `add_epred_draws()` for expected values: we are not interested in any specific individual, the individual value is irrelevant. 
-
-We use `add_predicted_draws()` for predicted values: we care, not about the average, but about this specific person.
-
-Both functions return draws from a posterior probability distribution, but the unknown number which underlies the posterior are very different.
-
-### Exercise 10
-
-The code below creates a nice graph. Click run. 
-
-```{r temperance-10, exercise = TRUE}
-# fit_approval |>
-#    add_predicted_draws(newdata = ndata) |>
-#    filter(.prediction %in% c("Strongly Approve", "Strongly Disapprove")) |> 
-#    ggplot(aes(x = education, fill = ideology)) +
-#    geom_bar(aes(y = after_stat(prop), group = ideology), position = "dodge") +
-#    facet_wrap(~ .prediction, nrow = 2) +
-#    scale_x_discrete(labels = c("No HS" = "No HS",
-#                                "High School Graduate" = "HS",
-#                                "Some College" = "Some College",
-#                                "2-Year" = "2_Year",
-#                                "4-Year" = "4-Year",
-#                                "Post-Grad" = "Post-Grad")) +
-#    scale_y_continuous(labels = scales::percent_format()) +
-#    theme_minimal() +
-#    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
-#    labs(title = "Ideology by Education, Faceted by Approval",
-#         x = "Education", fill = "Ideology", y = "Probability")
-```
-
-### 
-
-We have narrowed down our focus to only `Strongly Disapprove` and `Strongly Approve` so that we can compare the two. 
-
-For `Strongly Disapprove`, the probability increases as the level of `education` increases. On the other hand, for `Strongly Approve`, the probability decreases as the level of `education` increases.
-
-### Exercise 11
 
 Create a new code chunk in `analysis.qmd`. Label it with `label: plot`. Copy/paste the code which creates your graphic. Don't forget that, at the top of this chunk, you must include code which creates the `ndata` object.
 
@@ -1605,7 +1456,7 @@ tutorial.helpers::show_file("analysis.qmd", start = -8)
 
 CP/CR.
 
-```{r temperance-11}
+```{r temperance-4}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -1618,11 +1469,11 @@ question_text(NULL,
 
 We could have made many graphs with this data to highlight different things. It is important to only keep information in that is useful and has relationships with the outcome variable. 
 
-### Exercise 12
+### Exercise 5
 
 Write a paragraph which summarizes the project in your own words. The first few sentences are the same as what you had at the end of the Courage section. But, since your question may have evolved, you should feel free to change those sentences. Add at least one sentence which describes at least one quantity of interest (QoI) --- presumably one that answers your question -- and which provides a measure of uncertainty about that QoI.
 
-```{r temperance-12}
+```{r temperance-5}
 question_text(NULL,
 	message = "Using the CES, which is one of the largest political surveys in the United States, we seek to understand the relationship between presidential approval and political ideology in 2020. One concern is that survey respondents might be systematically different from other Americans. We are using a cumulative model for ordinal regression. People who are very conservative are more likely to approve the president higher by about 5.6 compared to people who are very liberal. We are 95% confident that the true value is between 4.9 and 6.2.",
 	answer(NULL, correct = TRUE),
@@ -1635,11 +1486,11 @@ question_text(NULL,
 
 Edit the summary paragraph in `analysis.qmd` as you see fit, but do not copy/paste our answer exactly. `Command/Ctrl + Shift + K`.
 
-### Exercise 13
+### Exercise 6
 
 Write a few sentences which explain why the estimates for the quantities of interest, and the uncertainty thereof, might be wrong. Suggest an alternative estimate and confidence interval, if you think either might be warranted. 
 
-```{r temperance-13}
+```{r temperance-6}
 question_text(NULL,
 	message = "Our estimates and confidence intervals might not be wrong because the data is not perfect. We have noticed some potential problems such as in validity; people could be lying about thier approval of the president or misidentifying their ideology. These concerns can cause our findings to be inaccurate. The true estimate and confidence interval might be different. The interval would be bigger because we have uncertainties about the data.",
 	answer(NULL, correct = TRUE),
@@ -1652,7 +1503,7 @@ question_text(NULL,
 
 There is almost always uncertainty associated with our conclusions. It is important to notice and acknowledge the potential problems with the data. 
 
-### Exercise 14
+### Exercise 7
 
 Rearrange the material in `analysis.qmd` so that the order is graphic, paragraph, math and table. Doing so, of course, requires sensible judgment. For example, the code chunk which creates the fitted model must occur before the chunk which creates the graphic. `Command/Ctrl + Shift + K` to ensure that everything works.
 
@@ -1664,7 +1515,7 @@ tutorial.helpers::show_file("analysis.qmd")
 
 CP/CR.
 
-```{r temperance-14}
+```{r temperance-7}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -1677,13 +1528,18 @@ question_text(NULL,
 
 Add `rsconnect` to the `.gitignore` file. You don't want your personal Rpubs details stored in the clear on Github. Commit/push everything.
 
-# MP Temperance Model Compilation Issue: When trying to compile the example model, the code snippet fit_approval |> add_predicted_draws(newdata = ndata) |> filter(.prediction %in% c("Strongly Approve", "Strongly Disapprove")) results in an error indicating that add_predicted_draws cannot be found. This suggests that the marginaleffects package may not be loaded correctly. Ensure that the package is properly loaded and that the function is accessible. 
+<<<<<<< HEAD
+
 
 ### Exercise 15
+=======
+
+### Exercise 8
+>>>>>>> 5846dc502636d512c97ba8dfb635ad8ca61e17fa
 
 Publish `analysis.qmd` to Rpubs. Choose a sensible slug. Copy/paste the url below.
 
-```{r temperance-15}
+```{r temperance-8}
 question_text(NULL,
 	answer(NULL, correct = TRUE),
 	allow_retry = TRUE,
@@ -1691,6 +1547,28 @@ question_text(NULL,
 	incorrect = NULL,
 	rows = 3)
 ```
+
+
+<!-- In order to align with temperance, we must embrace humility. Would some hypothesis testing or a different model be within the realms of reason for students? Maybe a short introduction on p-value interpretation AND confidence intervals. (z/t-tests, z for proportions, t for means). Or maybe Bayesian Inference, -->
+
+
+<!-- question_text(NULL, -->
+<!-- 	message = "Bayesian inference provides a framework for updating beliefs about parameters based on the observed data. The prior distribution reflects our beliefs before seeing the data, and the likelihood represents the data's contribution. The posterior distribution is the updated belief after considering the data.", -->
+<!-- 	answer(NULL, correct = TRUE), -->
+<!-- 	allow_retry = FALSE, -->
+<!-- 	incorrect = NULL, -->
+<!-- 	rows = 6) -->
+
+
+<!-- Exercise 2 requires us to load the libraries -->
+
+<!-- Exercise 3 is us defining the models -->
+<!-- Exercise 4 is us interpreting the posterior distribution -->
+<!-- Exercise 5 is us plotting posterior distributions -->
+<!-- Exercise 6 is credible intervals -->
+<!-- Exercise 7 is interpreting our intervals with humility. -->
+
+
 
 ### 
 
