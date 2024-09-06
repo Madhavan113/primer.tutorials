@@ -13,6 +13,7 @@ output:
 runtime: shiny_prerendered
 description: 'Tutorial #XX for Preceptor''s Primer (where XX is the same number as
   in the id)'
+
 ---
 
 ```{r setup, include = FALSE}
@@ -445,6 +446,7 @@ XX: Can we use data from [XX: describe your data] to predict behavior in [XX: de
 You won't be drawing any conclusions or discussing the explicit violation of any assumptions. That discussion is saved until Justice and the specific questions about stability, representativeness, and (with causal models) unconfoundedness. You are, however, providing the details which you and the students can then use later. -->
 
 ### Exercise 2
+
 
 Define a Preceptor Table.
 
